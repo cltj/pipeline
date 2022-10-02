@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
 from src.config import My_Config as cfg
-from .download_blob import get_data
-from .clean_data import removed_columns
+from download_blob import get_data
+from clean_data import removed_columns
 
 
 def short_columns(word): # this only wors for azure files
@@ -34,6 +34,6 @@ def split_data(filename, table_kind):
             original_columns.remove(col)
             print("Removed '" + str(col) + "' from original columns")
     df = df.loc[:,original_columns]
-    df.to_csv(LOCAL_FILE_PATH + 'normalized/' + filename + '_details_' + table_kind + '.csv')
-    print('Created nomalized ' + table_kind + ' table')
+    df.to_csv(LOCAL_FILE_PATH + 'split/azure/' + filename + '_details_' + table_kind + '.csv')
+    print('Created shortend ' + table_kind + ' table')
     

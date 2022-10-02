@@ -1,5 +1,5 @@
 import numpy as np
-from .download_blob import get_data
+from download_blob import get_data
 
 
 def clean_blank_cols():

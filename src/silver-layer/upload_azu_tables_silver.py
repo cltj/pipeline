@@ -3,22 +3,22 @@ import sys, os
 sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
 from src.config import My_Config as cfg
 from azure.storage.blob import BlobServiceClient
-from .split_data import split_data
+from split_azure_data import split_data
 
 
 # Env-vars
 LOCAL_FILE_PATH = cfg.local_files_path()
-CONTAINERNAME = cfg.storage_container_name_2()
 CONNECTION_STRING = cfg.storage_connection_string()
+CONTAINERNAME = cfg.storage_container_name_2()
 
 
 def upload_tables():
     #create a new container
     blob_service_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
-    blob_service_client.create_container(CONTAINERNAME)
+    # blob_service_client.create_container(container_name)
     
     #upload the files
-    split_folder = LOCAL_FILE_PATH + 'split'
+    split_folder = LOCAL_FILE_PATH + 'split/azure'
     all_file_names = [f for f in os.listdir(split_folder)
                     if os.path.isfile(os.path.join(split_folder, f)) and ".csv" in f]
       
@@ -37,7 +37,7 @@ def cleanup_files():
     Params: None
     Returns: None
     """
-    split_folder = LOCAL_FILE_PATH + 'split'
+    split_folder = LOCAL_FILE_PATH + 'split/azure'
     for f in os.listdir(split_folder):
         if os.path.isfile(os.path.join(split_folder, f)) and f.endswith(".csv"):
             os.remove(os.path.join(split_folder, f))
