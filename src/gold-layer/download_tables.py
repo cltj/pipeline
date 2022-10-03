@@ -4,7 +4,6 @@ from src.config import My_Config as cfg
 import pandas as pd
 
 
-
 # Env-vars
 LOCAL_FILE_PATH = cfg.local_files_path()
 CONTAINERNAME = cfg.storage_container_name_1()
@@ -23,3 +22,4 @@ def get_data():
     sas_url = create_sas()
     df = pd.read_parquet(sas_url)
     return df
+
