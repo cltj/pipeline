@@ -22,4 +22,3 @@ def get_data():
     sas_url = create_sas()
     df = pd.read_parquet(sas_url)
     return df
-
