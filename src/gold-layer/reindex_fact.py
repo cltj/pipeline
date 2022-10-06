@@ -7,7 +7,7 @@ import pandas as pd
 
 # for each table in silver blob
 # if fact, store it in memory
-def get_blobs(word):
+def get_fact():
     from azure.storage.blob import BlobServiceClient, BlobBlock
     CONNECTION_STRING = cfg.storage_connection_string()
     BILLING_CONTAINER = cfg.storage_container_name_2()
@@ -16,18 +16,14 @@ def get_blobs(word):
     blob_list = container_client.list_blobs()
     for blob in blob_list:
         print("\t" + blob.name)
-    return blob_list
+        if "dim" not in blob.name: 
+            fact = get_data(blob.name)
+            fact.shape
+            return fact
 
+        
 
-def get_fact():
-    blobs = get_blobs()
-    for blob in blobs:
-        if "dim" not in blob:
-            fact  = blob
-            df = pd.DataFrame(fact)
-            return df
-        if "fact" not in blob:
-            continue
+fact = get_fact()
 
 #for each table in silver
 # if dim table, store it
