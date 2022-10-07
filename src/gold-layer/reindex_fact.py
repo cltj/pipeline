@@ -16,14 +16,47 @@ def get_fact():
     blob_list = container_client.list_blobs()
     for blob in blob_list:
         print("\t" + blob.name)
-        if "dim" not in blob.name: 
+        if "dim" not in blob.name:
             fact = get_data(blob.name)
             fact.shape
             return fact
 
-        
+def get_dim():
+    from azure.storage.blob import BlobServiceClient, BlobBlock
+    CONNECTION_STRING = cfg.storage_connection_string()
+    BILLING_CONTAINER = cfg.storage_container_name_2()
+    blob_service_client =  BlobServiceClient.from_connection_string(CONNECTION_STRING)
+    container_client=blob_service_client.get_container_client(BILLING_CONTAINER)
+    blob_list = container_client.list_blobs()
+    for blob in blob_list:
+        print("\t" + blob.name)
+        if "fact" not in blob.name:
+            dim = get_data(blob.name)
+            dim.shape
+            return dim
 
-fact = get_fact()
+
+def list_blobs():
+    from azure.storage.blob import BlobServiceClient, BlobBlock
+    CONNECTION_STRING = cfg.storage_connection_string()
+    BILLING_CONTAINER = cfg.storage_container_name_2()
+    blob_service_client =  BlobServiceClient.from_connection_string(CONNECTION_STRING)
+    container_client=blob_service_client.get_container_client(BILLING_CONTAINER)
+    blob_list = container_client.list_blobs()
+    return len(blob_list)
+
+
+def combine():
+    fact = get_fact()
+    len_blobs = list_blobs()
+    blobs = len_blobs-1
+    for blob in blobs:
+        dim = get_dim()
+        if dim.name == blob.name:
+            print(dim.name)
+            
+
+
 
 #for each table in silver
 # if dim table, store it
