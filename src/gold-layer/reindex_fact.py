@@ -62,7 +62,7 @@ def combine():
             # replace with subtable index
             
 
-
+# how to write this part :/ 
 
 #for each table in silver
 # if dim table, store it
