@@ -54,6 +54,12 @@ def combine():
         dim = get_dim()
         if dim.name == blob.name:
             print(dim.name)
+            # if dim name 
+            # make sub table
+            # make subtable unique
+            # for value in subtable, (find colum in table)
+            # if value in sub table and table is same
+            # replace with subtable index
             
 
 
