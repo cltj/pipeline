@@ -63,7 +63,9 @@ def combine():
             
 
 # how to write this part :/
-# maybe backtrack to splitt
+# maybe backtrack to split
+# Needs to have all dimention tables with unique id column
+# then id columns in dim tables will be joined to the fact table
 
 #for each table in silver
 # if dim table, store it
