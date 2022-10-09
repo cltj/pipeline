@@ -67,6 +67,10 @@ def combine():
 # Needs to have all dimention tables with unique id column
 # then id columns in dim tables will be joined to the fact table
 
+# add testing and checks for what sql to write
+
+
+
 #for each table in silver
 # if dim table, store it
 # for each index value in dim table, if col value(dim) = col vaule(fact), insert index vaule
