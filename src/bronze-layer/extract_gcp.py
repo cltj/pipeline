@@ -20,3 +20,5 @@ def gcp_billing():
     df = pd.DataFrame(data)
     df.to_parquet(LOCAL_FILES_PATH + 'GCP-Billing-Data.parquet', index=False)
     print("GCP billing data extracted!")
+    
+# This needs a lot of work still
