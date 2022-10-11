@@ -21,4 +21,5 @@ def gcp_billing():
     df.to_parquet(LOCAL_FILES_PATH + 'GCP-Billing-Data.parquet', index=False)
     print("GCP billing data extracted!")
     
-# This needs a lot of work still
+# This needs a lot of work still ..
+# spilt and make unique
