@@ -23,3 +23,8 @@ def get_data():
     sas_url = create_sas()
     df = pd.read_parquet(sas_url)
     return df
+
+
+# get query maker from your other project and integrate into this one
+# make own gcp pipeline
+# figure out how to store dims and facts per customer
