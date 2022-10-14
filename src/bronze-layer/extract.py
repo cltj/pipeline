@@ -21,12 +21,6 @@ def cleanup_files():
             shutil.rmtree(dir_path+"/"+ dir)
         except OSError as e:
             print("Error: %s : %s" % (dir_path, e.strerror))
-    # for f in os.listdir(LOCAL_FILES_PATH):
-    #     if os.path.isfile(os.path.join(LOCAL_FILES_PATH, f)) and f.endswith(".parquet"):
-    #         os.remove(os.path.join(LOCAL_FILES_PATH, f))
-    #         print("Removing local file: " + f)
-    #     else:
-    #         continue
 
 
 def main():
