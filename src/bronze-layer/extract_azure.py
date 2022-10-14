@@ -1,8 +1,11 @@
+from multiprocessing.connection import wait
+
+
 def azure_billing():
     from azure.identity import ClientSecretCredential
     from azure.mgmt.consumption import ConsumptionManagementClient
     import pandas as pd
-    import sys, os
+    import sys, os, time
     sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
     from src.config import My_Config as cfg
     
@@ -19,7 +22,10 @@ def azure_billing():
     df = pd.DataFrame()
     for item in usage:
         df = df.append(item.as_dict(), ignore_index=True)
+    isExist = os.path.exists(LOCAL_FILES_PATH + 'data/azure_data/')
+    if isExist is False:
+        os.mkdir(LOCAL_FILES_PATH + 'data/azure_data/')
+        time.sleep(1)
+        
     df.to_parquet(LOCAL_FILES_PATH + 'data/azure_data/Azure-Billing-Data.parquet')
     print("Azure billing data extracted!")
-
-azure_billing()

@@ -1,7 +1,7 @@
 def gcp_billing():
     from google.cloud import bigquery
     from google.oauth2 import service_account
-    import sys, os, pandas_gbq
+    import sys, os, pandas_gbq, time
     import pandas as pd
     sys.path.insert(0,'/mnt/c/dev/cl/pipeline/')
     from src.config import My_Config as cfg
@@ -28,5 +28,9 @@ def gcp_billing():
         data = pandas_gbq.read_gbq(query, project_id=project_id, dialect='standard')
         df = pd.DataFrame(data)
         file = file.replace('.sql','.parquet')
+        isExist = os.path.exists(LOCAL_FILES_PATH + 'data/gcp_data/')
+        if isExist is False:
+            os.mkdir(LOCAL_FILES_PATH + 'data/gcp_data/')
+            time.sleep(1)
         df.to_parquet(LOCAL_FILES_PATH + "data/gcp_data/" + file, index=True)
     print("GCP billing data extracted!")

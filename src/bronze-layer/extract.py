@@ -1,5 +1,5 @@
 
-import os, sys
+import os, sys, shutil
 sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
 from src.config import My_Config as cfg
 from extract_azure import azure_billing
@@ -14,13 +14,19 @@ def cleanup_files():
     Params: None
     Returns: None
     """
-    LOCAL_FILES_PATH = cfg.local_files_path()
-    for f in os.listdir(LOCAL_FILES_PATH):
-        if os.path.isfile(os.path.join(LOCAL_FILES_PATH, f)) and f.endswith(".parquet"):
-            os.remove(os.path.join(LOCAL_FILES_PATH, f))
-            print("Removing local file: " + f)
-        else:
-            continue
+    dir_path = cfg.local_files_path() + '/data'
+    sub_dir = os.listdir(dir_path)
+    for dir in sub_dir:
+        try:
+            shutil.rmtree(dir_path+"/"+ dir)
+        except OSError as e:
+            print("Error: %s : %s" % (dir_path, e.strerror))
+    # for f in os.listdir(LOCAL_FILES_PATH):
+    #     if os.path.isfile(os.path.join(LOCAL_FILES_PATH, f)) and f.endswith(".parquet"):
+    #         os.remove(os.path.join(LOCAL_FILES_PATH, f))
+    #         print("Removing local file: " + f)
+    #     else:
+    #         continue
 
 
 def main():

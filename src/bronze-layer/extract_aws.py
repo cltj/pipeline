@@ -1,5 +1,5 @@
 def aws_billing():
-    import sys, boto3, os
+    import sys, boto3, os, time
     sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
     from src.config import My_Config as cfg
     import pandas as pd
@@ -10,6 +10,11 @@ def aws_billing():
     bucket = s3.Bucket('collectbill')
     count = 1
     filenames = []
+    isExist = os.path.exists(LOCAL_FILES_PATH + 'data/aws_data/')
+    if isExist is False:
+        os.mkdir(LOCAL_FILES_PATH + 'data/aws_data/')
+        time.sleep(1)
+    
     df = pd.DataFrame()
     for s3_object in bucket.objects.all():
         if s3_object.key.endswith('.parquet'):
@@ -17,7 +22,7 @@ def aws_billing():
             bucket.download_file(s3_object.key, LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             part = pd.read_parquet(LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             df = df.append(part, ignore_index=True)
-            os.remove(LOCAL_FILES_PATH + 'aws_data/'+filename)
+            os.remove(LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             filenames.append(s3_object.key)
    
     
