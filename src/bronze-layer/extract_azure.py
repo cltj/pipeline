@@ -19,5 +19,7 @@ def azure_billing():
     df = pd.DataFrame()
     for item in usage:
         df = df.append(item.as_dict(), ignore_index=True)
-    df.to_parquet(LOCAL_FILES_PATH + 'Azure-Billing-Data.parquet')
+    df.to_parquet(LOCAL_FILES_PATH + 'data/azure_data/Azure-Billing-Data.parquet')
     print("Azure billing data extracted!")
+
+azure_billing()

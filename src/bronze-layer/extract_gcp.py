@@ -18,7 +18,7 @@ def gcp_billing():
     dataset_location = cfg.gcp_dataset_location()
     
     client = bigquery.Client(project=project_id, location=dataset_location)
-    # query = """SELECT * FROM {table}""".format(table="`"+ gcp_gbq_table+"`") # old
+
     
     file_path = os.environ.get("GCP_QUERY_FILEPATH")
     dir_list = os.listdir(file_path)
@@ -28,8 +28,5 @@ def gcp_billing():
         data = pandas_gbq.read_gbq(query, project_id=project_id, dialect='standard')
         df = pd.DataFrame(data)
         file = file.replace('.sql','.parquet')
-        df.to_parquet(LOCAL_FILES_PATH + "/gcp_data/" + file, index=True)
+        df.to_parquet(LOCAL_FILES_PATH + "data/gcp_data/" + file, index=True)
     print("GCP billing data extracted!")
-
-
-gcp_billing()

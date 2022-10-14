@@ -14,6 +14,7 @@ def upload_parquet():
     CONNECTION_STRING = cfg.storage_connection_string()
     BILLING_CONTAINER = cfg.storage_container_name_1()
     LOCAL_FILES_PATH = cfg.local_files_path()
+    CUSTOMER_NAME = os.environ.get("CUSTOMER_NAME")
     
     class AzureBlobFileUploader:
         def __init__(self):
@@ -23,15 +24,21 @@ def upload_parquet():
         
         def upload_all_images_in_folder(self):
             # Get all files with parquet extension and exclude directories
-            all_file_names = [f for f in os.listdir(LOCAL_FILES_PATH)
-                            if os.path.isfile(os.path.join(LOCAL_FILES_PATH, f)) and ".parquet" in f]
+            directories  = os.listdir(LOCAL_FILES_PATH+'data')
+            all_file_names = []
+            for dir in directories:
+                dir_file_names = [f for f in os.listdir(LOCAL_FILES_PATH+'data/'+dir)
+                                if os.path.isfile(os.path.join(LOCAL_FILES_PATH+'data/'+dir, f)) and ".parquet" in f]
+                all_file_names.append(dir_file_names)
             
-            for file_name in all_file_names: # Upload each file
-                self.upload_file(file_name)
+            for lst in all_file_names:    
+                for file_name in lst: # Upload each file
+                    self.upload_file(file_name)
         
         def upload_file(self,file_name):
-            blob_client = self.blob_service_client.get_blob_client(container=BILLING_CONTAINER, blob=file_name) # Create blob with same name as local file name
-            upload_file_path = os.path.join(LOCAL_FILES_PATH, file_name)
+            container_path = BILLING_CONTAINER+"/"+CUSTOMER_NAME+"-bronze"
+            blob_client = self.blob_service_client.get_blob_client(container=container_path, blob=file_name) # Create blob with same name as local file name
+            upload_file_path = os.path.join(LOCAL_FILES_PATH+'data/', file_name) # This needs fixing
             
             print(f"uploading file - {file_name}")
             with open(upload_file_path, "rb") as data: # Uploads to cltj
@@ -39,3 +46,5 @@ def upload_parquet():
 
     azure_blob_file_uploader = AzureBlobFileUploader() # Initialize class and upload files
     azure_blob_file_uploader.upload_all_images_in_folder()
+    
+upload_parquet()
