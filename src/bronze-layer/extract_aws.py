@@ -1,15 +1,16 @@
 def aws_billing():
-    import sys, boto3, os, time
-    sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
-    from src.config import My_Config as cfg
+    import boto3, os, time
     import pandas as pd
     
-    session = boto3.Session(aws_access_key_id=cfg.aws_access_id(), aws_secret_access_key=cfg.aws_secret_key())
-    LOCAL_FILES_PATH = cfg.local_files_path()
+    LOCAL_FILES_PATH = os.environ.get("LOCAL_FILES_PATH")
+    AWS_ACCESS_ID = os.environ.get("AWS_ACCESS_ID")
+    AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
+    
+    session = boto3.Session(aws_access_key_id=AWS_ACCESS_ID, aws_secret_access_key=AWS_SECRET_KEY)
     s3 = session.resource('s3')
     bucket = s3.Bucket('collectbill')
-    count = 1
     filenames = []
+    
     isExist = os.path.exists(LOCAL_FILES_PATH + 'data/aws_data/')
     if isExist is False:
         os.mkdir(LOCAL_FILES_PATH + 'data/aws_data/')
@@ -21,10 +22,9 @@ def aws_billing():
             path, filename = os.path.split(s3_object.key)
             bucket.download_file(s3_object.key, LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             part = pd.read_parquet(LOCAL_FILES_PATH + 'data/aws_data/'+filename)
-            df = df.append(part, ignore_index=True)
+            df = pd.concat([df,part], ignore_index=True)
             os.remove(LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             filenames.append(s3_object.key)
    
-    
     df.to_parquet(LOCAL_FILES_PATH + 'data/aws_data/AWS-Billing-Data.parquet')
     print("AWS billing data extracted!")
