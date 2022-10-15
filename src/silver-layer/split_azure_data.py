@@ -1,8 +1,6 @@
-import sys
-sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
-from src.config import My_Config as cfg
+import os
 from download_blob import get_data
-from clean_data import removed_columns
+from clean_az_data import removed_columns
 
 
 def short_columns(word): # this only wors for azure files
@@ -25,7 +23,7 @@ def short_columns(word): # this only wors for azure files
 
 
 def split_data(filename, table_kind):
-    LOCAL_FILE_PATH = cfg.local_files_path()
+    LOCAL_FILE_PATH = os.environ.get("LOCAL_FILE_PATH")
     df = get_data()
     removed_cols = removed_columns()
     original_columns = short_columns(filename)

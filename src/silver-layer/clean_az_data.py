@@ -3,7 +3,6 @@ from download_blob import get_data
 
 # make sure to crate dim tables that have unique id column
 
-
 def clean_blank_cols():
     df = get_data()
     # Replace all blank values with NaN

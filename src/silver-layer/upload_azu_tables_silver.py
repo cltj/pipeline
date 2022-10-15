@@ -1,15 +1,13 @@
 
-import sys, os
-sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
-from src.config import My_Config as cfg
+import os
 from azure.storage.blob import BlobServiceClient
 from split_azure_data import split_data
 
 
 # Env-vars
-LOCAL_FILE_PATH = cfg.local_files_path()
-CONNECTION_STRING = cfg.storage_connection_string()
-CONTAINERNAME = cfg.storage_container_name_2()
+LOCAL_FILE_PATH = os.environ.get("LOCAL_FILE_PATH")
+CONNECTION_STRING = os.environ.get("STORAGE_CONNECTION_STRING")
+CONTAINERNAME = os.environ.get("STORAGE_CONTAINER_NAME_2")
 
 
 def upload_tables():
@@ -32,11 +30,6 @@ def upload_tables():
 
 
 def cleanup_files():
-    """
-    Cleans up local parquet files
-    Params: None
-    Returns: None
-    """
     split_folder = LOCAL_FILE_PATH + 'split/azure'
     for f in os.listdir(split_folder):
         if os.path.isfile(os.path.join(split_folder, f)) and f.endswith(".csv"):
