@@ -28,7 +28,7 @@ def upload_parquet():
             for i in azure_data:
                 azure_path = LOCAL_FILES_PATH+'data/azure_data'
                 self.upload_file(file_name=i, path=azure_path, platform="azure")
-
+                
         
         def upload_file(self,file_name,path, platform):
             container_path = BILLING_CONTAINER+"/"+CUSTOMER_NAME+"/"+platform
