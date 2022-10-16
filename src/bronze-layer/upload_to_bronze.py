@@ -4,16 +4,11 @@ from src.config import My_Config as cfg
 
     
 def upload_parquet():
-    """
-    Uploads local parquet files to azure blob storage
-    Params: None
-    Returns: None
-    """
     from azure.storage.blob import BlobServiceClient
     
-    CONNECTION_STRING = cfg.storage_connection_string()
-    BILLING_CONTAINER = cfg.storage_container_name_1()
-    LOCAL_FILES_PATH = cfg.local_files_path()
+    CONNECTION_STRING = os.environ.get("STORAGE_CONNECTION_STRING")
+    BILLING_CONTAINER = os.environ.get("STORAGE_CONTAINER_NAME_1")
+    LOCAL_FILES_PATH = os.environ.get("LOCAL_FILES_PATH")
     CUSTOMER_NAME = os.environ.get("CUSTOMER_NAME")
     
     class AzureBlobFileUploader:

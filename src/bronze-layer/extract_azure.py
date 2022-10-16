@@ -1,22 +1,20 @@
 import os, time
-import pandas as pd
-from azure.storage.blob import ContainerClient
-
-# Env-vars
-LOCAL_FILES_PATH = os.environ.get("LOCAL_FILES_PATH")
-CONTAINERNAME = os.environ.get("CONTAINERNAME")
-ACCOUNTNAME = os.environ.get("ACCOUNTNAME")
-QUERYSTRING = os.environ.get("QUERYSTRING")
-CONNECTION_STRING = os.environ.get("CONNECTION_STRING")
 
 
 def blobs():
+    from azure.storage.blob import ContainerClient
+    CONTAINERNAME = os.environ.get("CONTAINERNAME")
+    CONNECTION_STRING = os.environ.get("CONNECTION_STRING")
     container_client =  ContainerClient.from_connection_string(CONNECTION_STRING, CONTAINERNAME)
     blob_list = container_client.list_blobs()
     return blob_list
 
 
 def azure_billing():
+    import pandas as pd
+    LOCAL_FILES_PATH = os.environ.get("LOCAL_FILES_PATH")
+    ACCOUNTNAME = os.environ.get("ACCOUNTNAME")
+    QUERYSTRING = os.environ.get("QUERYSTRING")
     blob_list = blobs()
     df = pd.DataFrame()
     for blob in blob_list:
@@ -33,4 +31,3 @@ def azure_billing():
         
     df.to_parquet(LOCAL_FILES_PATH + 'data/azure_data/Azure-Billing-Data.parquet')
     print("Azure billing data extracted!")
-    
