@@ -4,7 +4,7 @@ from download_blob import get_data
 # make sure to crate dim tables that have unique id column
 
 def clean_blank_cols():
-    df = get_data()
+    df = get_data("cloudlink/azure")
     # Replace all blank values with NaN
     df = df.replace(r'\s+',np.nan,regex=True).replace('',np.nan)
     before = len(df.columns)
@@ -20,7 +20,7 @@ def clean_blank_cols():
 
 def removed_columns():
     removed_columns = []
-    df = get_data()
+    df = get_data("cloudlink/azure")
     df2 = clean_blank_cols()
     raw = list(df.columns)
     cleaned = list(df2.columns)
