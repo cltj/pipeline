@@ -26,5 +26,5 @@ def aws_billing():
             os.remove(LOCAL_FILES_PATH + 'data/aws_data/'+filename)
             filenames.append(s3_object.key)
    
-    df.to_parquet(LOCAL_FILES_PATH + 'data/aws_data/AWS-Billing-Data.parquet')
+    df.to_parquet(LOCAL_FILES_PATH + 'data/aws_data/aws-billing-data.parquet')
     print("AWS billing data extracted!")

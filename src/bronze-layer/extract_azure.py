@@ -3,9 +3,10 @@ import os, time
 
 def blobs():
     from azure.storage.blob import ContainerClient
+    # from azure.storage.blob import BlobClient
     CONTAINERNAME = os.environ.get("CONTAINERNAME")
     CONNECTION_STRING = os.environ.get("CONNECTION_STRING")
-    container_client =  ContainerClient.from_connection_string(CONNECTION_STRING, CONTAINERNAME)
+    container_client =  ContainerClient.from_connection_string(conn_str=CONNECTION_STRING, container_name=CONTAINERNAME)
     blob_list = container_client.list_blobs()
     return blob_list
 
@@ -29,5 +30,5 @@ def azure_billing():
         os.mkdir(LOCAL_FILES_PATH + 'data/azure_data/')
         time.sleep(1)
         
-    df.to_parquet(LOCAL_FILES_PATH + 'data/azure_data/Azure-Billing-Data.parquet')
+    df.to_parquet(LOCAL_FILES_PATH + 'data/azure_data/azure-billing-data.parquet')
     print("Azure billing data extracted!")
