@@ -1,6 +1,9 @@
 import pandas as pd
+import json
+import os
 from download_blob import get_data
 
+LOCAL_FILES_PATH = os.environ.get("LOCAL_FILES_PATH")
 
 def remove_cols():
     data = get_data("cloudlink/azure")
@@ -43,17 +46,14 @@ def resource_dim(df):
 #     longest = 0
 #     for elem in tags_dim['tags']:
 #         if elem is None:
-#             continue
-        
+#             continue      
 #         next = len(elem)
 #         if  next <= longest:
-#             continue
-        
+#             continue      
 #         else:
 #             longest = next
 #             longest_element = elem
-#     return longest_element
-    
+#     return longest_element  
 # longest_tag = find_longest()
 # print(len(longest_tag), longest_tag)
 
@@ -62,7 +62,7 @@ def resource_dim(df):
 def tags_dim(df):
     tags_colums = ['ResourceId', 'tags']
     tags_dim = pd.DataFrame(df,columns=tags_colums, copy=True)
-    tags_dim.index = tags_dim['ResourceId']
+    # tags_dim.index = tags_dim['ResourceId']
     tags_dim.columns
     return tags_dim
 
@@ -75,3 +75,12 @@ def usage_fact(df):
     usage_fact = usage_fact[usage_fact['effectivePrice'] != 0]
     usage_fact.columns
     return usage_fact
+
+
+df = get_data('cloudlink/azure')
+tags = tags_dim(df)
+tags_list = tags.iloc[:,1]
+
+t = pd.DataFrame(tags_list)
+t.shape
+t.to_json(LOCAL_FILES_PATH + 'data/azure_tags.json')
