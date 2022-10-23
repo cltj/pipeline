@@ -82,5 +82,7 @@ tags = tags_dim(df)
 tags_list = tags.iloc[:,1]
 
 t = pd.DataFrame(tags_list)
-t.shape
+df_len, df_width = t.shape
 t.to_json(LOCAL_FILES_PATH + 'data/azure_tags.json')
+print(df_len, df_width)
+# Still no solution
