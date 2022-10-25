@@ -1,7 +1,7 @@
 
 import os
 from azure.storage.blob import BlobServiceClient
-from split_azure_data import split_data
+from split_azure_data import tags_dim, sub_dim, product_dim, resource_dim, usage_fact
 
 
 # Env-vars
@@ -41,10 +41,11 @@ def cleanup_files():
         
 def main():
     # create_singles_csv()
-    split_data('meter','dim')
-    split_data('resource','dim')
-    split_data('billing','dim')
-    split_data('consumption','fact')
+    tags_dim()
+    sub_dim()
+    product_dim()
+    resource_dim()
+    usage_fact()
     upload_tables()
     cleanup_files()
     print("Done!!!")

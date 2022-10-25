@@ -11,35 +11,36 @@ def remove_cols():
     print(df.columns)
 
 
-def sub_dim(df):
+def sub_dim():
+    df = get_data('cloudlink/azure')
     subscription_colums = ["SubscriptionId","subscriptionName", "billingAccountId", "billingAccountName", "billingProfileId", "billingProfileName"]
-
     subscription_dim = pd.DataFrame(df,columns=subscription_colums, copy=True)
-    subscription_dim.index = subscription_dim["SubscriptionId"]
+    # subscription_dim.index = subscription_dim["SubscriptionId"]
     subscription_dim.drop_duplicates("SubscriptionId", inplace=True)
     subscription_dim.columns
-    return subscription_dim
+    subscription_dim.to_csv(LOCAL_FILES_PATH + 'split/azure/sub_dim.json')
 
 
-def product_dim(df):
+def product_dim():
+    df = get_data('cloudlink/azure')
     product_colums = ["ProductId","ProductName", "resourceLocation", "meterSubCategory", "meterCategory"]
-
     product_dim = pd.DataFrame(df,columns=product_colums, copy=True)
-    product_dim.index = product_dim["ProductId"]
+    # product_dim.index = product_dim["ProductId"]
     product_dim.drop_duplicates("ProductId", inplace=True)
     product_dim.columns
-    return product_dim
+    product_dim.to_csv(LOCAL_FILES_PATH + 'split/azure/product_dim.json')
 
 
-def resource_dim(df):
+def resource_dim():
+    df = get_data('cloudlink/azure')
     resource_dim = pd.DataFrame(df,columns=["ResourceId"], copy=True)
     resource_dim = resource_dim['ResourceId'].str.split("/", expand=True)
     resource_dim = resource_dim.loc[:, [2,4,6,8]]
     resource_dim.columns = ['SubscriptionId', 'resourceGroupName', 'consumedService', 'resourceName']
-    resource_dim.index = resource_dim["resourceName"]
+    # resource_dim.index = resource_dim["resourceName"]
     resource_dim.drop_duplicates("resourceName", inplace=True)
     resource_dim.columns
-    return resource_dim
+    resource_dim.to_csv(LOCAL_FILES_PATH + 'split/azure/resource_dim.json')
 
 
 # def find_longest():
@@ -59,30 +60,32 @@ def resource_dim(df):
 
 
 
-def tags_dim(df):
+def tags_dim():
+    df = get_data('cloudlink/azure')
     tags_colums = ['ResourceId', 'tags']
     tags_dim = pd.DataFrame(df,columns=tags_colums, copy=True)
     # tags_dim.index = tags_dim['ResourceId']
     tags_dim.columns
-    return tags_dim
+    tags_dim.to_csv(LOCAL_FILES_PATH + 'split/azure/tags_dim.json')
 
 
-def usage_fact(df):
+def usage_fact():
+    df = get_data('cloudlink/azure')
     usage_colums = ["quantity", "effectivePrice", "paygCostInBillingCurrency", "date", "ProductId", "SubscriptionId"]
-
     usage_fact = pd.DataFrame(df,columns=usage_colums, copy=True)
-    usage_fact.index = usage_fact["ProductId"]
+    # usage_fact.index = usage_fact["ProductId"]
     usage_fact = usage_fact[usage_fact['effectivePrice'] != 0]
     usage_fact.columns
-    return usage_fact
+    usage_fact.to_csv(LOCAL_FILES_PATH + 'split/azure/usage_fact.json')
 
 
-df = get_data('cloudlink/azure')
-tags = tags_dim(df)
-tags_list = tags.iloc[:,1]
+def main():
+    tags_dim()
+    sub_dim()
+    product_dim()
+    resource_dim()
+    usage_fact()
 
-t = pd.DataFrame(tags_list)
-df_len, df_width = t.shape
-t.to_json(LOCAL_FILES_PATH + 'data/azure_tags.json')
-print(df_len, df_width)
-# Still no solution
+
+if __name__ == "__main__":
+    main()
