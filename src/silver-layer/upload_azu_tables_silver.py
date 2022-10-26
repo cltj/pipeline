@@ -40,7 +40,7 @@ def cleanup_files():
         
         
 def main():
-    # create_singles_csv()
+    # create_singles_csv() # this needs reviewing
     tags_dim()
     sub_dim()
     product_dim()
