@@ -6,3 +6,4 @@ class Config(Basesettings):
         
 conf = Config()
 print(conf.var)
+# does not work
