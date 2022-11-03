@@ -54,23 +54,3 @@ def combine():
         dim = get_dim()
         if dim.name == blob.name:
             print(dim.name)
-            # if dim name 
-            # make sub table
-            # make subtable unique
-            # for value in subtable, (find colum in table)
-            # if value in sub table and table is same
-            # replace with subtable index
-            
-
-# how to write this part :/
-# maybe backtrack to split
-# Needs to have all dimention tables with unique id column
-# then id columns in dim tables will be joined to the fact table
-
-# add testing and checks for what sql to write
-
-
-
-#for each table in silver
-# if dim table, store it
-# for each index value in dim table, if col value(dim) = col vaule(fact), insert index vaule
