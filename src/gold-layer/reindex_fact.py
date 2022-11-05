@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0,'/mnt/c/dev/cl/pipeline')
-from src.config import My_Config as cfg
+from config_old import My_Config as cfg
 from download_tables import get_data
 import pandas as pd
 
