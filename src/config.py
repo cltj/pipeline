@@ -35,4 +35,4 @@ class Settings(BaseSettings):
     querystring : str 
 
     class Config:
-        env_file = "../.env"
+        env_file = ".env"

@@ -1,5 +1,5 @@
-from src.extract_billing_multicloud import aws_billing, gcp_billing, azure_billing
-from src.upload_to_bronze import upload_parquet, cleanup_files
+from extract_billing_multicloud import aws_billing, gcp_billing, azure_billing
+from upload_to_bronze import upload_parquet, cleanup_files
 
 
 def main():
