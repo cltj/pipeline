@@ -14,7 +14,6 @@ keys/
 
 ### Config File ###
 
-src/config.py
 pocs/1/config.py
 pocs/2/config.py
 pocs/3/config.py
