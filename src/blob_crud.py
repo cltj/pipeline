@@ -33,23 +33,23 @@ class AzureBlobFileUploader:
             print('Downloading ' + blob.name + '\n')
             AzureBlobFileUploader().download_blob(container_name=container_name, blob_name=blob.name)
 
+    def upload_to_bronze(self):
+        gcp_data  = os.listdir(settings.local_files_path+'data/gcp_data')
+        aws_data  = os.listdir(settings.local_files_path+'data/aws_data')
+        azure_data  = os.listdir(settings.local_files_path+'data/azure_data')
 
-def upload_to_bronze():
-    gcp_data  = os.listdir(settings.local_files_path+'data/gcp_data')
-    aws_data  = os.listdir(settings.local_files_path+'data/aws_data')
-    azure_data  = os.listdir(settings.local_files_path+'data/azure_data')
+        for file in gcp_data:
+            gcp_path = settings.local_files_path+'data/gcp_data'
+            self.upload_file(file_name=file, path=gcp_path, platform="gcp")
 
-    for file in gcp_data:
-        gcp_path = settings.local_files_path+'data/gcp_data'
-        upload.upload_file(file_name=file, path=gcp_path, platform="gcp")
+        for file in aws_data:
+            aws_path = settings.local_files_path+'data/aws_data'
+            self.upload_file(file_name=file, path=aws_path, platform="aws")
 
-    for file in aws_data:
-        aws_path = settings.local_files_path+'data/aws_data'
-        upload.upload_file(file_name=file, path=aws_path, platform="aws")
+        for file in azure_data:
+            azure_path = settings.local_files_path+'data/azure_data'
+            self.upload_file(file_name=file, path=azure_path, platform="azure")
 
-    for file in azure_data:
-        azure_path = settings.local_files_path+'data/azure_data'
-        upload.upload_file(file_name=file, path=azure_path, platform="azure")
-
-upload = AzureBlobFileUploader(settings.containername,settings.storage_container_name_1)
-upload_to_bronze()
+# to tightly coupled 
+# need to find persistant folder structure
+# upload = AzureBlobFileUploader(settings.containername,settings.storage_container_name_1).upload_to_bronze()
