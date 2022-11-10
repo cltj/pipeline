@@ -4,7 +4,7 @@
 import os
 import pandas as pd
 
-
+# needs refactoring
 # Env-vars
 BLOBNAME = os.environ.get("STORAGE_BLOB_NAME")
 CONTAINERNAME = os.environ.get("STORAGE_CONTAINER_NAME_1")
